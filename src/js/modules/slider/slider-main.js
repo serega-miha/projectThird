@@ -1,14 +1,10 @@
-export default class Slider{
-    constructor(page, btns){
-        this.page = document.querySelector(page);
-        this.slides = this.page.children;
-        this.btns = document.querySelectorAll(btns);
-        this.slidIndex = 1;
+import Slider from './slider';
 
+
+export default class MainSlider extends Slider {
+    constructor(btns) {
+        super(btns)
     }
-
-
-
 
     showSlides(n){
         if (n > this.slides.length) {
@@ -43,8 +39,7 @@ export default class Slider{
     }
 
 
-    render(){
-        
+    bindTriggers() {
         this.btns.forEach(item =>{
             item.addEventListener('click', ()=>{
                 this.plusSlides(1);
@@ -58,14 +53,31 @@ export default class Slider{
 
 
         });
-
-        this.showSlides(this.slidIndex);
-        
-      
-       
-
-
+        document.querySelectorAll('.prevmodule').forEach(item =>{
+            item.addEventListener('click', (e)=>{
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                this.plusSlides(-1);
+            })
+        })
+        document.querySelectorAll('.nextmodule').forEach(item =>{
+            item.addEventListener('click', (e)=>{
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                this.plusSlides(1);
+            })
+        })
 
     }
 
+
+
+    render(){
+        
+       if (this.container){
+        this.showSlides(this.slidIndex);
+        this.bindTriggers();
+       
+       }
+    }
 }
